@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django_countries.fields import CountryField
+from vote.managers import VotableManager
 # Create your models here.
 
 
@@ -27,6 +28,10 @@ class Sin(models.Model):
     language = models.CharField(choices=LANGUAGE_CHOICES, max_length=2, default=settings.LANGUAGE_CODE)
     target_sex = models.CharField(choices=TARGET_SEX, default=UNISEX, max_length=2)
     sinners = models.ManyToManyField(Sinner)
+    votes = VotableManager()
+
+    def get_sinners_count(self):
+        return self.sinners.count()
 
 
 class Sinner(models.Model):
@@ -39,6 +44,7 @@ class Sinner(models.Model):
         (FEMALE, _('Female'))
     )
 
+    AGNOSTICISM = 'AG'
     ATHEISM = 'AT'
     CHRISTIANITY = 'CR'
     ISLAM = 'IS'
@@ -52,6 +58,7 @@ class Sinner(models.Model):
     SHINTOISM = "SN"
     
     RELIGION_CHOICES = (
+        (AGNOSTICISM, _("Agnosticism")),
         (ATHEISM, _('Atheism')),
         (CHRISTIANITY, _('Christianity')),
         (ISLAM, _("Islam")),
@@ -65,9 +72,8 @@ class Sinner(models.Model):
         (SHINTOISM, _("Shintoism"))
     )
 
-    age = models.PositiveIntegerField(default=16)
-    sex = models.CharField(choices=TARGET_SEX, default=UNISEX, max_length=2)
-    occupation = models.CharField(max_length=255)
-    country_of_residence = CountryField(blank_label=_('(select country)'))
-    religion = models.CharField(max_length=2, choices=RELIGION_CHOICES, default=ATHEISM)
-
+    age = models.PositiveIntegerField(default=16, verbose_name=_("Age"))
+    sex = models.CharField(choices=TARGET_SEX, default=UNISEX, max_length=2, blank_label=_('Robot'), verbose_name=_("Sex"))
+    occupation = models.CharField(max_length=255, blank_label=_('Journalist'), verbose_name=_("Occupation"))
+    country_of_residence = CountryField(blank_label=_('Select country'), verbose_name=_("Country of residence"))
+    religion = models.CharField(max_length=2, choices=RELIGION_CHOICES, default=ATHEISM, verbose_name=_("Religion"))

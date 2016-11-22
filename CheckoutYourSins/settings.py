@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
+    'captcha',
+    'vote',
+    'sins'
 ]
 
 MIDDLEWARE = [
@@ -119,3 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+RECAPTCHA_PUBLIC_KEY = '6LfSqwwUAAAAANE4N8O1n12hfVKVXljHfQNrNwNO'
+RECAPTCHA_PRIVATE_KEY = '6LfSqwwUAAAAANrrEF4BThkr5YBLxkMVviNkrpI_'
+NOCAPTCHA = True
