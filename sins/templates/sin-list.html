@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="" method="post">
+    <table>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    {% for sin in object_list %}
+        <tr>
+            <td>
+                <input type="checkbox" name="{{ sin.id }}" >
+            </td>
+            <td>
+                <a href="{% url 'sin-detail' sin.id %}">{{ sin.text }}</a>
+            </td>
+            <td>
+                {{ sin.cost }}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+</form>
+
+</body>
+</html>
