@@ -1,34 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load i18n %}
 
-<form action="" method="post">
-    <table>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    {% for sin in object_list %}
-        <tr>
-            <td>
-                <input type="checkbox" name="{{ sin.id }}" >
-            </td>
-            <td>
-                <a href="{% url 'sin-detail' sin.id %}">{{ sin.text }}</a>
-            </td>
-            <td>
-                {{ sin.cost }}
-            </td>
-        </tr>
-    {% endfor %}
-    </table>
+{% block title %}{% trans 'Checkout your sins!' %}{% endblock %}
 
-</form>
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 col-lg-10 col-s-12">
+            <form action="" method="post">
+                <table class="table">
+                    <tr>
+                        <th>?!</th>
+                        <th>{% trans 'Sin text' %}</th>
+                        <th>{% trans 'Sin cost' %}</th>
+                        <th>{% trans 'Sin check' %}</th>
+                    </tr>
+                {% for sin in object_list %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            <a href="{% url 'sin-detail' sin.id %}">{{ sin.text }}</a>
+                        </td>
+                        <td>
+                            <span class="sin_cost">{{ sin.cost }}</span>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="{{ sin.id }}" id="sin#{{ sin.id }}" >
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </form>
+        </div>
+        <div class="col-md-2 col-lg-2 col-s-12">
+            <div class="total_sum">
 
-</body>
-</html>
+            </div>
+        </div>
+    </div>
+{% endblock %}

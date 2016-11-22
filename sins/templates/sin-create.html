@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load i18n %}
 
-</body>
-</html>
+{% block title %}{% trans "Create your own sin" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <h1>{% trans 'Create your own sin' %}</h1>
+            <p>{% trans 'Protip: make it simple, but fun. Enjoy!' %}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="" method="post" class="form-horizontal">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="{% trans "Submit" %}" class="btn btn-default">
+            </form>
+        </div>
+    </div>
+{% endblock %}

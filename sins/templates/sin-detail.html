@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Detail of sin#{{ sin.id }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load i18n %}
 
-</body>
-</html>
+{% block title %}Detail of sin#{{ object.pk }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>{% trans 'Sin text' %}</th>
+                    <td>{{ object.text }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans 'Sin cost' %}</th>
+                    <td>{{ object.cost }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans 'Sin language' %}</th>
+                    <td>{{ object.language }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans 'Sin target sex' %}</th>
+                    <td>{{ object.target_sex }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans 'Number of sinners' %}</th>
+                    <td>{{ object.get_sinners_count }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'disqus_include.html' %}
+        </div>
+    </div>
+{% endblock %}
