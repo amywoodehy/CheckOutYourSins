@@ -53,7 +53,8 @@ class IndexPageView(FormMixin, TemplateView):
                 country_of_residence=cd['country_of_residence'],
                 religion=cd['religion']
             )
-            request.session['sinner_id'] = sinner_object.id
+            request.session['sinner_id'] = sinner_object[0].id
+            request.session['created'] = sinner_object[1]
             if sinner_object.sex == Sinner.MALE:
                 return redirect(reverse('male-sin-list'))
             elif sinner_object.sex == Sinner.FEMALE:
