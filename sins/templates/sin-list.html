@@ -5,38 +5,93 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-10 col-lg-10 col-s-12">
-            <form action="" method="post">
-                <table class="table">
+            <div class="col-md-10 col-lg-10 col-s-12">
+                <table class="table table-striped">
                     <tr>
                         <th>?!</th>
+                        <th>{% trans 'Sin sex' %}</th>
                         <th>{% trans 'Sin text' %}</th>
                         <th>{% trans 'Sin cost' %}</th>
                         <th>{% trans 'Sin check' %}</th>
                     </tr>
-                {% for sin in object_list %}
-                    <tr>
-                        <td>
-                            {{ forloop.counter }}
-                        </td>
-                        <td>
-                            <a href="{% url 'sin-detail' sin.id %}">{{ sin.text }}</a>
-                        </td>
-                        <td>
-                            <span class="sin_cost">{{ sin.cost }}</span>
-                        </td>
-                        <td>
-                            <input type="checkbox" name="{{ sin.id }}" id="sin#{{ sin.id }}" >
-                        </td>
-                    </tr>
-                {% endfor %}
+                    {% for sin in object_list %}
+                        <tr class="clickable sin-select">
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+                            <td>
+                                <span>{{ sin.target_sex }}</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'sin-detail' sin.id %}">{{ sin.text }}</a>
+                            </td>
+                            <td>
+                                <span class="sin_cost">{{ sin.cost }}</span>
+                            </td>
+                            <td>
+                                <input class="sin_checkbox" type="checkbox" name="{{ sin.id }}" id="sin#{{ sin.id }}" title="{% trans 'There was sin' %}" value="{{ sin.cost }}" >
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </table>
-            </form>
-        </div>
-        <div class="col-md-2 col-lg-2 col-s-12">
-            <div class="total_sum">
-
             </div>
+            <div class="col-md-2 col-lg-2 col-s-12">
+                <div class="total_sum">
+                    <div class="check-message"></div>
+                    <div class="sum"></div>
+                    <form action="" method="post" id="sin-check-list">
+                        <input type="submit" class="btn btn-primary" value="{% trans 'Submit your sins' %}">
+                    </form>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox" autocomplete="off"> Checkbox 2
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox" autocomplete="off"> Checkbox 3
+            </label>
         </div>
     </div>
+{% endblock %}
+
+{% block custom_script %}
+    <script>
+        var sins = {};
+        var total = 0;
+        var check_checkbox = function(){
+            total = 0;
+            sins = {};
+            var sin_list = $("input:checked");
+            sin_list.each(function(index, sin){
+                sins[sin.name] = sin.value;
+                total += Number(sin.value);
+            });
+            var n = sin_list.length;
+            $( ".total_sum > .check-message" ).text( n + (n === 1 ? " is" : " are") + " checked!" );
+            $(".total_sum > .sum").text(total);
+        };
+
+        $('#sin-check-list').submit(function(event){
+            event.preventDefault();
+            var post_data = {
+                "csrfmiddlewaretoken": "{{ csrf_token }}",
+                "sins": sins
+            };
+        });
+
+        $('.clickable').click(function(){
+            var this_checkbox = $(this).find('input[type=checkbox]');
+            var state = this_checkbox.is(":checked");
+            this_checkbox.prop("checked", !state);
+            console.log("reverse state called");
+            return check_checkbox();
+        });
+
+    </script>
 {% endblock %}

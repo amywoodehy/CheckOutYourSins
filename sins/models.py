@@ -27,11 +27,14 @@ class Sin(models.Model):
     cost = models.IntegerField(default=1)
     language = models.CharField(choices=LANGUAGE_CHOICES, max_length=2, default=settings.LANGUAGE_CODE)
     target_sex = models.CharField(choices=TARGET_SEX, default=UNISEX, max_length=2)
-    sinners = models.ManyToManyField(Sinner)
+    sinners = models.ManyToManyField('Sinner', blank=True, editable=False)
     votes = VotableManager()
 
     def get_sinners_count(self):
         return self.sinners.count()
+
+    def __str__(self):
+        return "{}:{}:{}".format(self.text[:16], self.language, self.cost)
 
 
 class Sinner(models.Model):
@@ -73,7 +76,10 @@ class Sinner(models.Model):
     )
 
     age = models.PositiveIntegerField(default=16, verbose_name=_("Age"))
-    sex = models.CharField(choices=TARGET_SEX, default=UNISEX, max_length=2, blank_label=_('Robot'), verbose_name=_("Sex"))
-    occupation = models.CharField(max_length=255, blank_label=_('Journalist'), verbose_name=_("Occupation"))
+    sex = models.CharField(choices=TARGET_SEX, default=UNISEX, max_length=2, verbose_name=_("Sex"))
+    occupation = models.CharField(max_length=255, verbose_name=_("Occupation"))
     country_of_residence = CountryField(blank_label=_('Select country'), verbose_name=_("Country of residence"))
     religion = models.CharField(max_length=2, choices=RELIGION_CHOICES, default=ATHEISM, verbose_name=_("Religion"))
+
+    def __str__(self):
+        return "{}:{}:{}".format(self.sex, self.age, self.religion)
