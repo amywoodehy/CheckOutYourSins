@@ -25,7 +25,10 @@ SECRET_KEY = '@&#$l)@%ihf784j-zbwvjbfi32&v9g%$06p#p16i%#ck2p(0&7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	'checkoutyoursin.ga',
+	'checkoutyoursins.ga',
+]
 
 
 # Application definition
