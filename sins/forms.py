@@ -9,10 +9,16 @@ class VoteForCost(Form):
 
 
 class CreateYourSinForm(ModelForm):
-    model = Sin
     captcha = ReCaptchaField()
+
+    class Meta:
+        model = Sin
+        fields = ['text', 'cost', 'target_sex', 'language', 'captcha']
 
 
 class AboutQuestionnaire(ModelForm):
-    model = Sinner
     captcha = ReCaptchaField()
+
+    class Meta:
+        model = Sinner
+        fields = ['age', 'sex', 'occupation', 'religion', 'country_of_residence', 'captcha']
