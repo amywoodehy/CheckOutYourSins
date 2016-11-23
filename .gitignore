@@ -72,3 +72,4 @@ ENV/
 .spyderproject
 .ropeproject
 .idea/
+db.sqlite3
